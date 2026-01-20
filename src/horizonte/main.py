@@ -41,17 +41,60 @@ def check_due_checkins():
     month_str = now.strftime("%Y-%m")
     
     # If no files, or last file is not from this month
-    is_due = True
+    is_done = False
     if files:
         last_file = files[0] # sorted desc
         if month_str in last_file.name:
-            is_due = False
+            is_done = True
             
-    if is_due:
+    if not is_done:
+        msg = None
+        title = None
+        
         # Check if today is the last day of the month
         last_day = calendar.monthrange(now.year, now.month)[1]
+        
         if now.day == last_day:
-             console.print(Panel(f"[bold red]📅 {Strings.MSG_CHECKIN_LAST_DAY}[/bold red]\n\n[italic]Execute 'road-to-35 checkin' para realizar o fechamento do mês.[/italic]", style="red", title="Último dia do Mês!"))
+             title = "⚠️ Último dia do Mês!"
+             msg = Strings.MSG_CHECKIN_LAST_DAY
+        elif now.day > 20: # Gentle reminder logic late in the month
+             # Or if we want stricter logic: check if we are overdue for PREVIOUS month?
+             # Current logic is simplest: Have I done checkin for CURRENT month?
+             # If not, and it's late in month, remind.
+             pass
+             
+        # Check if we are overdue for PREVIOUS month?
+        # If today is Jan 5th, and last checkin was Nov...
+        # Let's keep it simple: "Check-in Pendente" banner on launch if not done for current month
+        pass
+
+        # New Logic: Always show a small reminder if not done? 
+        # Or only if overdue? 
+        # Let's show big warning if Last Day.
+        # Let's show warning if we are in first week of new month and missed previous? 
+        # (That implies iterating checkin history gap? Too complex for now)
+        
+        # Let's stick to user request: "Notification"
+        # If it is Last Day, Notify.
+        # If we explicitly haven't done it by day 1 of next month, it's overdue.
+        
+        if title and msg:
+            console.print(Panel(f"[bold red]📅 {msg}[/bold red]\n\n[italic]Execute 'horizonte checkin' para realizar o fechamento do mês.[/italic]", style="red", title=title))
+            try_system_notification(title, msg)
+
+def try_system_notification(title: str, message: str):
+    """
+    Attempts to send a system notification (macOS specific for now).
+    """
+    import platform
+    import subprocess
+    
+    if platform.system() == "Darwin":
+        try:
+            script = f'display notification "{message}" with title "{title}"'
+            subprocess.run(["osascript", "-e", script], check=False)
+        except Exception:
+            pass
 
 
 @app.callback(invoke_without_command=True)
