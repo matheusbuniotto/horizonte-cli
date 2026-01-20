@@ -1,5 +1,5 @@
 [project]
-name = "goals-cli"
+name = "horizonte-cli"
 version = "0.1.0"
 description = "A powerful CLI for tracking life goals and vision."
 readme = "README.md"
@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-goals = "goals_cli.main:app"
+horizonte = "goals_cli.main:app"
 
 [dependency-groups]
 dev = [
