@@ -6,7 +6,7 @@ from rich.panel import Panel
 from rich.text import Text
 from rich import box
 
-from goals_cli.core.models import CheckIn, Goal, GoalCategory
+from horizonte.core.models import CheckIn, Goal, GoalCategory
 
 console = Console()
 

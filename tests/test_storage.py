@@ -1,8 +1,8 @@
 import json
 import os
 from pathlib import Path
-from goals_cli.core.storage import GoalsRepository, ConfigRepository, CheckinRepository, atomic_write
-from goals_cli.core.models import Goal, Horizon, SmartCriteria, Config
+from horizonte.core.storage import GoalsRepository, ConfigRepository, CheckinRepository, atomic_write
+from horizonte.core.models import Goal, Horizon, SmartCriteria, Config
 
 def test_atomic_write(tmp_path):
     f = tmp_path / "test.txt"
@@ -58,7 +58,7 @@ def test_checkin_repository(tmp_path):
     repo = CheckinRepository(dir_path=tmp_path / "checkins")
     
     # Save checkin
-    from goals_cli.core.models import CheckIn, CheckInType
+    from horizonte.core.models import CheckIn, CheckInType
     checkin = CheckIn(
         type=CheckInType.MONTHLY,
         goals_covered=[],

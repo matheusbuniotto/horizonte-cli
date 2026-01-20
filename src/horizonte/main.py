@@ -12,10 +12,10 @@ from rich import box
 from rich.text import Text
 from rich.layout import Layout
 
-from goals_cli.locales.pt_br import Strings
-from goals_cli.core.models import Goal, Horizon, SmartCriteria, Config, GoalCategory, GoalStatus
-from goals_cli.core.storage import GoalsRepository, ConfigRepository, CheckinRepository
-from goals_cli.core.ai import suggest_smart_criteria, suggest_category, refine_smart_field
+from horizonte.locales.pt_br import Strings
+from horizonte.core.models import Goal, Horizon, SmartCriteria, Config, GoalCategory, GoalStatus
+from horizonte.core.storage import GoalsRepository, ConfigRepository, CheckinRepository
+from horizonte.core.ai import suggest_smart_criteria, suggest_category, refine_smart_field
 
 app = typer.Typer(help=Strings.APP_TITLE)
 
@@ -268,7 +268,7 @@ def init(reset: bool = typer.Option(False, "--reset", help="Limpar objetivos exi
     print(f"[bold green]{Strings.WELCOME_MESSAGE}[/bold green]")
     
     # Ensure directory exists
-    from goals_cli.core.storage import ensure_app_dir, GOALS_FILE
+    from horizonte.core.storage import ensure_app_dir, GOALS_FILE
     ensure_app_dir()
     
     goals_repo = GoalsRepository()
@@ -595,7 +595,7 @@ def adjust():
 
 @app.command(help=Strings.CMD_CHECKIN_DESC)
 def checkin(force: bool = typer.Option(False, "--force", "-f", help="Forçar check-in mesmo sem estar vencido")):
-    from goals_cli.core.ai import generate_checkin_interaction
+    from horizonte.core.ai import generate_checkin_interaction
     
     goals_repo = GoalsRepository()
     goals = goals_repo.load()
@@ -639,7 +639,7 @@ def checkin(force: bool = typer.Option(False, "--force", "-f", help="Forçar che
         
         user_text = Prompt.ask("Seu relato")
         
-        from goals_cli.core.ai import process_intelligent_checkin
+        from horizonte.core.ai import process_intelligent_checkin
         updates = process_intelligent_checkin(user_text, active_goals)
         
         if updates:
@@ -737,7 +737,7 @@ def checkin(force: bool = typer.Option(False, "--force", "-f", help="Forçar che
     md_content += f"{general_feeling}\n\n"
 
     # AI Analysis & Summary
-    from goals_cli.core.ai import analyze_checkin_period
+    from horizonte.core.ai import analyze_checkin_period
     
     ai_summary = analyze_checkin_period(checkin_data, general_feeling, month_str)
     
@@ -769,7 +769,7 @@ def checkin(force: bool = typer.Option(False, "--force", "-f", help="Forçar che
         md_content += "## Análise do Coach IA\n"
         md_content += f"{ai_summary}\n"
 
-    from goals_cli.core.models import CheckIn, CheckInType
+    from horizonte.core.models import CheckIn, CheckInType
     
     checkin_obj = CheckIn(
         type=CheckInType.MONTHLY,
@@ -846,7 +846,7 @@ def progress():
     console.print(table)
     
     # 2. Detailed Analytics Dashboard
-    from goals_cli.core.analytics import render_analytics_dashboard
+    from horizonte.core.analytics import render_analytics_dashboard
     
     if checkins:
         console.print("\n")

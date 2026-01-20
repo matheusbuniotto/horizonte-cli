@@ -7,7 +7,7 @@ from openai import OpenAI
 from rich.console import Console
 from rich.panel import Panel
 
-from goals_cli.core.models import SmartCriteria
+from horizonte.core.models import SmartCriteria
 
 load_dotenv()
 

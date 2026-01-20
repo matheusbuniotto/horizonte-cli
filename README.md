@@ -1,35 +1,35 @@
-# Goals CLI
+# Horizonte CLI
 
-A powerful, AI-enhanced Command Line Interface to track your life goals, vision, and progress.
+Uma Interface de Linha de Comando (CLI) poderosa e aprimorada por IA para acompanhar seus objetivos de vida, visão e progresso.
 
-## Features
+## Funcionalidades
 
-- **Goal Management**: Create, track, and manage goals across different categories (Financial, Life, Health, Professional).
-- **Smart Horizons**: Track Short Term vs Long Term vision.
-- **AI Integration**:
-    - **Smart Criteria**: AI suggests Specific, Measurable, Achievable, Relevant, and Time-bound criteria for your goals.
-    - **Intelligent Check-ins**: Natural language updates ("I have 150k now") are automatically parsed and applied to relevant goals.
-    - **Progress Analysis**: Get motivational feedback and analytical summaries of your progress.
-- **Privacy First**: All data is stored locally.
+- **Gerenciamento de Objetivos**: Crie, acompanhe e gerencie objetivos em diferentes categorias (Financeiro, Vida, Saúde, Profissional).
+- **Horizontes Inteligentes**: Acompanhe sua visão de Curto Prazo vs Longo Prazo.
+- **Integração com IA**:
+    - **Critérios SMART**: A IA sugere critérios Específicos, Mensuráveis, Atingíveis, Relevantes e Temporais para seus objetivos.
+    - **Check-ins Inteligentes**: Atualizações em linguagem natural ("Tenho 150k agora") são analisadas automaticamente e aplicadas aos objetivos relevantes.
+    - **Análise de Progresso**: Receba feedback motivacional e resumos analíticos do seu progresso.
+- **Privacidade em Primeiro Lugar**: Todos os dados são armazenados localmente.
 
-## Installation
+## Instalação
 
 ```bash
 uv sync
 ```
 
-## Usage
+## Como Usar
 
-Run the CLI using `uv run`:
+Execute a CLI usando `uv run`:
 
 ```bash
-uv run goals [COMMAND]
+uv run horizonte [COMANDO]
 ```
 
-### Common Commands
+### Comandos Comuns
 
-- `uv run goals init`: Initialize the database.
-- `uv run goals add`: Add a new goal (interactive).
-- `uv run goals list`: List all active goals.
-- `uv run goals checkin`: Start an interactive check-in session.
-- `uv run goals progress`: Visualize your overall progress.
+- `uv run horizonte init`: Inicializa o banco de dados.
+- `uv run horizonte add`: Adiciona um novo objetivo (interativo).
+- `uv run horizonte list`: Lista todos os objetivos ativos.
+- `uv run horizonte checkin`: Inicia uma sessão de check-in interativa.
+- `uv run horizonte progress`: Visualiza seu progresso geral.

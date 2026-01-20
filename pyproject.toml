@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-horizonte = "goals_cli.main:app"
+horizonte = "horizonte.main:app"
 
 [dependency-groups]
 dev = [
