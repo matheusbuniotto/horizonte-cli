@@ -8,7 +8,7 @@ Uma Interface de Linha de Comando (CLI) poderosa e aprimorada por IA para acompa
 - **Horizontes Inteligentes**: Acompanhe sua visão de Curto Prazo vs Longo Prazo.
 - **Integração com IA**:
     - **Critérios SMART**: A IA sugere critérios Específicos, Mensuráveis, Atingíveis, Relevantes e Temporais para seus objetivos.
-    - **Check-ins Inteligentes**: Atualizações em linguagem natural ("Tenho 150k agora") são analisadas automaticamente e aplicadas aos objetivos relevantes.
+    - **Check-ins Inteligentes**: Atualizações em linguagem natural (Corri 10KM esse mês) são analisadas automaticamente e aplicadas aos objetivos relevantes.
     - **Análise de Progresso**: Receba feedback motivacional e resumos analíticos do seu progresso.
 - **Privacidade em Primeiro Lugar**: Todos os dados são armazenados localmente.
 
