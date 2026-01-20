@@ -1,0 +1,21 @@
+[project]
+name = "goals-cli"
+version = "0.1.0"
+description = "A powerful CLI for tracking life goals and vision."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=2.15.0",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
+    "rich>=13.0.0",
+    "typer>=0.21.1",
+]
+
+[project.scripts]
+goals = "goals_cli.main:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
