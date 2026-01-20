@@ -14,22 +14,44 @@ Uma Interface de Linha de Comando (CLI) poderosa e aprimorada por IA para acompa
 
 ## Instalação
 
+Você pode instalar a ferramenta globalmente para rodar o comando `horizonte` de qualquer lugar.
+
+### 1. Pré-requisitos
+Certifique-se de ter o [uv](https://github.com/astral-sh/uv) instalado.
+
+### 2. Instalar Ferramenta
+Execute o script de instalação ou instale manualmente:
+
+**Via Script (Recomendado):**
 ```bash
-uv sync
+./install.sh
+```
+
+**Manual via Git:**
+```bash
+uv tool install git+https://github.com/matheusbuniotto/horizonte-cli.git
 ```
 
 ## Como Usar
 
-Execute a CLI usando `uv run`:
+Após instalar, você pode rodar diretamente:
 
 ```bash
-uv run horizonte [COMANDO]
+horizonte
+```
+
+Ou comandos específicos:
+
+```bash
+horizonte list
+horizonte checkin
 ```
 
 ### Comandos Comuns
 
-- `uv run horizonte init`: Inicializa o banco de dados.
-- `uv run horizonte add`: Adiciona um novo objetivo (interativo).
-- `uv run horizonte list`: Lista todos os objetivos ativos.
-- `uv run horizonte checkin`: Inicia uma sessão de check-in interativa.
-- `uv run horizonte progress`: Visualiza seu progresso geral.
+- `horizonte init`: Inicializa o banco de dados.
+- `horizonte add`: Adiciona um novo objetivo (interativo).
+- `horizonte list`: Lista todos os objetivos ativos.
+- `horizonte checkin`: Inicia uma sessão de check-in interativa.
+- `horizonte progress`: Visualiza seu progresso geral.
+![alt text](image.png)
