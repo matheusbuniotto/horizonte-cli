@@ -1,7 +1,7 @@
 import os
 import json
 import re
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 from dotenv import load_dotenv
 from openai import OpenAI
 from rich.console import Console
@@ -458,4 +458,54 @@ def process_intelligent_checkin(user_text: str, goals: list) -> list:
             
     except Exception as e:
         console.print(f"[red]Erro ao processar check-in inteligente: {str(e)}[/red]")
+        return []
+
+def suggest_milestones(title: str, description: str, current_smart: str) -> List[str]:
+    """
+    Suggests a list of 3-5 milestones for a goal.
+    """
+    client = get_ai_client()
+    if not client:
+        return []
+        
+    model = os.getenv("OPENROUTER_MODEL", "google/gemini-2.0-flash-exp:free")
+    
+    prompt = f"""
+    Contexto do Objetivo:
+    Título: {title}
+    Descrição: {description}
+    Critérios SMART (Resumo): {current_smart}
+    
+    Sua tarefa:
+    Quebre este objetivo em 3 a 5 "Milestones" (marcos intermediários) lógicos e sequenciais.
+    Cada milestone deve ser um título curto e acionável (ex: "Correr 5km", "Juntar fls 10k").
+    
+    Retorne APENAS um JSON array de strings:
+    ["Milestone 1", "Milestone 2", "Milestone 3"]
+    """
+    
+    try:
+        with console.status("[bold cyan]Gerando milestones...[/bold cyan]"):
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant that outputs JSON arrays."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.5,
+            )
+            
+            content = response.choices[0].message.content.strip()
+            if content.startswith("```json"):
+                content = content.replace("```json", "").replace("```", "")
+            elif content.startswith("```"):
+                content = content.replace("```", "")
+                
+            data = json.loads(content)
+            if isinstance(data, list):
+                return [str(i) for i in data]
+            return []
+            
+    except Exception as e:
+        console.print(f"[red]Erro ao gerar milestones: {str(e)}[/red]")
         return []

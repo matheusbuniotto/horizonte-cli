@@ -13,9 +13,9 @@ from rich.text import Text
 from rich.layout import Layout
 
 from horizonte.locales.pt_br import Strings
-from horizonte.core.models import Goal, Horizon, SmartCriteria, Config, GoalCategory, GoalStatus
+from horizonte.core.models import Goal, Horizon, SmartCriteria, Config, GoalCategory, GoalStatus, Milestone
 from horizonte.core.storage import GoalsRepository, ConfigRepository, CheckinRepository
-from horizonte.core.ai import suggest_smart_criteria, suggest_category, refine_smart_field
+from horizonte.core.ai import suggest_smart_criteria, suggest_category, refine_smart_field, suggest_milestones
 
 app = typer.Typer(help=Strings.APP_TITLE)
 
@@ -119,10 +119,11 @@ def main(ctx: typer.Context):
                 console.print("  [3] Novo Objetivo")
                 console.print("  [4] Detalhes de Objetivo")
                 console.print("  [5] Editar Objetivo")
-                console.print("  [6] Histórico")
+                console.print("  [6] Breakdown de Objetivo")
+                console.print("  [7] Histórico")
                 console.print("  [0] Sair")
                 
-                choice = Prompt.ask("Opção", choices=["1", "2", "3", "4", "5", "6", "0"], default="1")
+                choice = Prompt.ask("Opção", choices=["1", "2", "3", "4", "5", "6", "7", "0"], default="1")
                 
                 if choice == "1":
                     checkin(force=False)
@@ -141,6 +142,11 @@ def main(ctx: typer.Context):
                     except typer.Exit:
                         pass
                 elif choice == "6":
+                    try:
+                        breakdown()
+                    except typer.Exit:
+                        pass
+                elif choice == "7":
                     history()
                 elif choice == "0":
                     break
@@ -634,6 +640,38 @@ def adjust():
     goal.updated_at = datetime.now()
     GoalsRepository().update(goal)
     print(f"[bold green]{Strings.MSG_GOAL_UPDATED}[/bold green]")
+
+
+@app.command(help="Quebra um objetivo em milestones (marcos)")
+def breakdown():
+    goal = select_goal_interactive()
+    
+    console.print(f"[bold]Breakdown de Milestones: {goal.title}[/bold]")
+    
+    if goal.milestones:
+        console.print("\n[bold]Milestones Atuais:[/bold]")
+        for i, m in enumerate(goal.milestones):
+            status = "[green]✓[/green]" if m.is_completed else "[dim]•[/dim]"
+            console.print(f"  {status} {m.title}")
+            
+    if Confirm.ask("Gerar sugestões de milestones com IA?", default=True):
+        smart_summary = f"{goal.smart_criteria.specific} {goal.smart_criteria.measurable} {goal.smart_criteria.time_bound}"
+        suggestions = suggest_milestones(goal.title, goal.description, smart_summary)
+        
+        if suggestions:
+            console.print("\n[bold]Sugestões da IA:[/bold]")
+            for i, s in enumerate(suggestions):
+                console.print(f"  [{i+1}] {s}")
+                
+            if Confirm.ask("Adicionar estas sugestões?", default=True):
+                for s in suggestions:
+                    goal.milestones.append(Milestone(title=s))
+                
+                goal.updated_at = datetime.now()
+                GoalsRepository().update(goal)
+                console.print(f"[green]Milestones adicionados![/green]")
+    
+    # Manual add loop could be here too, but let's start with AI
 
 
 @app.command(help=Strings.CMD_CHECKIN_DESC)

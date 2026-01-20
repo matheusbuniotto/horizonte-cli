@@ -28,6 +28,12 @@ class SmartCriteria(BaseModel):
     relevant: str
     time_bound: str
 
+class Milestone(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    is_completed: bool = False
+    completed_at: Optional[datetime] = None
+
 class Goal(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
@@ -35,6 +41,7 @@ class Goal(BaseModel):
     category: GoalCategory = GoalCategory.LIFE
     horizon: Horizon
     smart_criteria: SmartCriteria
+    milestones: List[Milestone] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
     status: GoalStatus = GoalStatus.ACTIVE
